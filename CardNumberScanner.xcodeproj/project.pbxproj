@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2FE23D5D22008986003C9380 /* OCRAccuraiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE23D5C22008986003C9380 /* OCRAccuraiser.swift */; };
 		2FE81F192200481000933E1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE81F182200481000933E1B /* AppDelegate.swift */; };
 		2FE81F1B2200481000933E1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE81F1A2200481000933E1B /* ViewController.swift */; };
 		2FE81F1E2200481000933E1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FE81F1C2200481000933E1B /* Main.storyboard */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2FE23D5C22008986003C9380 /* OCRAccuraiser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRAccuraiser.swift; sourceTree = "<group>"; };
 		2FE81F152200480F00933E1B /* CardNumberScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardNumberScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FE81F182200481000933E1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2FE81F1A2200481000933E1B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				2FE81F2C2200619200933E1B /* tessdata */,
 				2FE81F182200481000933E1B /* AppDelegate.swift */,
 				2FE81F1A2200481000933E1B /* ViewController.swift */,
+				2FE23D5C22008986003C9380 /* OCRAccuraiser.swift */,
 				2FE81F1C2200481000933E1B /* Main.storyboard */,
 				2FE81F1F2200481100933E1B /* Assets.xcassets */,
 				2FE81F212200481100933E1B /* LaunchScreen.storyboard */,
@@ -219,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FE23D5D22008986003C9380 /* OCRAccuraiser.swift in Sources */,
 				2FE81F2B2200572B00933E1B /* NavigationBarSetting.swift in Sources */,
 				2FE81F1B2200481000933E1B /* ViewController.swift in Sources */,
 				2FE81F192200481000933E1B /* AppDelegate.swift in Sources */,

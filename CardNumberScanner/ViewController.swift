@@ -56,7 +56,7 @@ class ViewController: UIViewController {
         
         let builderObject = ShimmerObject.init(text: "Ansar Bank",
                                                font: UIFont(name: "Papyrus", size: 24)!,
-                                               textAlignment: .center, animationDuration: 8,
+                                               textAlignment: .center, animationDuration: 3,
                                                frame: CGRect(x: 0, y: 0, width: cameraView.frame.width, height: 44),
                                                parentView: cameraView,
                                                mainLabelTextColor: .orange,
@@ -91,12 +91,13 @@ class ViewController: UIViewController {
                 try device.lockForConfiguration()
                 device.torchMode = device.torchMode == .off ? .on : .off
                 device.unlockForConfiguration()
-            } catch let e {
-                print("Error: \(e.localizedDescription)")
+            } catch let error {
+                print("Error: \(error.localizedDescription)")
             }
         }
         let flashlightButtonTitle = device.torchMode == .off ? "Flashlight On" : "Flashlight Off"
-        flashlightButton.titleLabel?.text = flashlightButtonTitle
+//        flashlightButton.setTitle(flashlightButtonTitle, for: .normal)
+//        flashlightButton.titleLabel?.text = flashlightButtonTitle
 //        flashlightButton.title(for: .normal)
     }
     
