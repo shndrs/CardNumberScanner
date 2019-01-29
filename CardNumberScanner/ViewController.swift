@@ -35,7 +35,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var interestRegionWidth:NSLayoutConstraint!
     @IBOutlet weak var interestRegionHeight:NSLayoutConstraint!
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -49,25 +48,76 @@ class ViewController: UIViewController {
         SHNDNavigationCustomTitleView(builder: navTitleBuilder)
         
         setUI()
+        realTimeEngineSetUp()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let builderObject = ShimmerObject.init(text: "Ansar Bank",
+                                               font: UIFont(name: "Papyrus", size: 24)!,
+                                               textAlignment: .center, animationDuration: 2,
+                                               frame: CGRect(x: 0, y: 0, width: cameraView.frame.width, height: 44),
+                                               parentView: cameraView,
+                                               mainLabelTextColor: .orange,
+                                               maskLabelTextColor: .red)
+        
+        SHNDShimmerFactory.create(builder: builderObject)
+    }
+
+    override func viewDidLayoutSubviews() {
+        engine.bindPreviewLayer(to: cameraView)
+        engine.regionOfInterest = interestRegion.frame
+        cameraView.layer.addSublayer(interestRegion.layer)
+        fillOpaqueAroundAreaOfInterest(parentView: cameraView, areaOfInterest: interestRegion)
+    }
+    
+    private func fillOpaqueAroundAreaOfInterest(parentView: UIView, areaOfInterest: UIView) {
+        let parentViewBounds = parentView.bounds
+        let areaOfInterestFrame = areaOfInterest.frame
+        
+        let path = UIBezierPath(rect: parentViewBounds)
+        let areaOfInterestPath = UIBezierPath(rect: areaOfInterestFrame)
+        path.append(areaOfInterestPath)
+        path.usesEvenOddFillRule = true
+        
+        excludeLayer.path = path.cgPath
+        parentView.layer.addSublayer(excludeLayer)
+    }
+    
+    @IBAction private func flashButtonPressed(_ sender: UIButton) {
+        guard let device = AVCaptureDevice.default(for: .video) else { return }
+        if device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                device.torchMode = device.torchMode == .off ? .on : .off
+                device.unlockForConfiguration()
+            } catch let e {
+                print("Error: \(e.localizedDescription)")
+            }
+        }
+        let flashlightButtonTitle = device.torchMode == .off ? "Flashlight On" : "Flashlight Off"
+        flashlightButton.titleLabel?.text = flashlightButtonTitle
+        flashlightButton.title(for: .normal)
     }
     
     private func setUI() {
         
         recognitionButton = UIButton()
-        recognitionButton.setTitleColor(view.tintColor, for: .normal)
-        recognitionButton.setTitle("Start Recognition", for: .normal)
+        recognitionButton.setTitleColor(.red, for: .normal)
+        recognitionButton.setTitle("Start", for: .normal)
         recognitionButton.addTarget(self, action: #selector(recognitionButtonTapped(_:)), for: .touchUpInside)
         
         recognitionTitleLabel = UILabel()
-        recognitionTitleLabel.text = "Recognition Text:"
+        recognitionTitleLabel.text = "Card Number"
         recognitionTitleLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         recognitionTitleLabel.textColor = .white
         
         recognitionLabel = UILabel()
         recognitionLabel.textAlignment = .center
-        recognitionLabel.numberOfLines = 20
+        recognitionLabel.numberOfLines = 0
         recognitionLabel.textColor = .white
-        recognitionLabel.text = "Let's Do This!"
+        recognitionLabel.text = "Your card No. will place here"
         
         let stackView = UIStackView(arrangedSubviews: [recognitionButton, recognitionTitleLabel, recognitionLabel])
         stackView.axis = .vertical
@@ -94,7 +144,7 @@ class ViewController: UIViewController {
         excludeLayer = CAShapeLayer()
         excludeLayer.fillRule = .evenOdd
         excludeLayer.fillColor = UIColor.black.cgColor
-        excludeLayer.opacity = 0.7
+        excludeLayer.opacity = 0.8
     }
     
     private func realTimeEngineSetUp() {
