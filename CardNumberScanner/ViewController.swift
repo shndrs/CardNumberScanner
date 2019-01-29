@@ -37,7 +37,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         SHNDNavigationBarGradient(firstColor: .purple, secondColor: .blue, tintColor: .white, isHorizontal: true)
         let navTitleBuilder = NavigationTitleViewBuilder(title: "Ansar OCR",
                                                          desc: "Ansar Bank",
@@ -56,12 +56,11 @@ class ViewController: UIViewController {
         
         let builderObject = ShimmerObject.init(text: "Ansar Bank",
                                                font: UIFont(name: "Papyrus", size: 24)!,
-                                               textAlignment: .center, animationDuration: 2,
+                                               textAlignment: .center, animationDuration: 8,
                                                frame: CGRect(x: 0, y: 0, width: cameraView.frame.width, height: 44),
                                                parentView: cameraView,
                                                mainLabelTextColor: .orange,
                                                maskLabelTextColor: .red)
-        
         SHNDShimmerFactory.create(builder: builderObject)
     }
 
@@ -98,7 +97,7 @@ class ViewController: UIViewController {
         }
         let flashlightButtonTitle = device.torchMode == .off ? "Flashlight On" : "Flashlight Off"
         flashlightButton.titleLabel?.text = flashlightButtonTitle
-        flashlightButton.title(for: .normal)
+//        flashlightButton.title(for: .normal)
     }
     
     private func setUI() {
@@ -147,12 +146,33 @@ class ViewController: UIViewController {
         excludeLayer.opacity = 0.8
     }
     
+    public func Numberizer( text:inout String) -> String {
+        
+        let stringArray = text.components(separatedBy: CharacterSet.decimalDigits.inverted)
+        
+        text = ""
+        
+        for item in stringArray {
+            if let number = UInt32(item) {
+
+                text = text + String(number)
+            }
+        }
+        
+        if text.count == 16 {
+            return text
+        } else {
+            return "Please Try Again!!"
+        }
+    }
+    
     private func realTimeEngineSetUp() {
         let swiftyTesseract = SwiftyTesseract(language: .english)
         engine = RealTimeEngine(swiftyTesseract: swiftyTesseract, desiredReliability: .verifiable) { [weak self] recognizedString in
             AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
             DispatchQueue.main.async {
-                self?.recognitionLabel.text = recognizedString
+                var text = recognizedString.trimmingCharacters(in: .whitespacesAndNewlines)
+                self?.recognitionLabel.text = self?.Numberizer(text: &text)
             }
             self?.recognitionIsRunning = false
         }
@@ -170,7 +190,6 @@ class ViewController: UIViewController {
         
         sender.setTranslation(.zero, in: interestRegion)
         viewDidLayoutSubviews()
- //       informationLabel.isHidden = true
     }
     
     @objc func recognitionButtonTapped(_ sender: Any) {
