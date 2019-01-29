@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SwiftyTesseract
+import SwiftyTesseractRTE
 
 class ViewController: UIViewController {
 

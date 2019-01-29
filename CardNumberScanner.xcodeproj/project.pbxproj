@@ -167,12 +167,16 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CardNumberScanner/Pods-CardNumberScanner-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/SHNDStuffs/SHNDStuffs.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyTesseract/SwiftyTesseract.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyTesseractRTE/SwiftyTesseractRTE.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SHNDStuffs.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyTesseract.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyTesseractRTE.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

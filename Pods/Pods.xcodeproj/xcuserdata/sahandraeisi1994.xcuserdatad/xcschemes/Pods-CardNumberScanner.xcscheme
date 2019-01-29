@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "98165FC13FD2D9F2B0916CFD70D049CB"
+               BlueprintIdentifier = "F91CAA1E7110BB969F36043BD4BBEF71"
                BuildableName = "Pods_CardNumberScanner.framework"
                BlueprintName = "Pods-CardNumberScanner"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "98165FC13FD2D9F2B0916CFD70D049CB"
+            BlueprintIdentifier = "F91CAA1E7110BB969F36043BD4BBEF71"
             BuildableName = "Pods_CardNumberScanner.framework"
             BlueprintName = "Pods-CardNumberScanner"
             ReferencedContainer = "container:Pods.xcodeproj">

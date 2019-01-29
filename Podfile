@@ -7,4 +7,7 @@ target 'CardNumberScanner' do
 
   # Pods for CardNumberScanner
   pod 'SHNDStuffs', '~> 1.1.3'
+  pod 'SwiftyTesseract', '~> 2.0'
+  pod 'SwiftyTesseractRTE', '~> 2.0'
+  
 end
