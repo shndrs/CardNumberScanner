@@ -11,13 +11,11 @@ import UIKit
 class Numberizer {
     
     static let shared = Numberizer()
-    
     private init(){}
     
     func Numberize(text:inout String) -> String {
         
         let stringArray = text.components(separatedBy: CharacterSet.decimalDigits.inverted)
-        
         text = ""
         
         for item in stringArray {
@@ -33,6 +31,4 @@ class Numberizer {
             return "Please Try Again!!"
         }
     }
-    
-    
 }

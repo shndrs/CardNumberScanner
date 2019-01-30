@@ -75,13 +75,13 @@
 				2FE81F182200481000933E1B /* AppDelegate.swift */,
 				2FE81F1A2200481000933E1B /* ViewController.swift */,
 				2FE23D5C22008986003C9380 /* OCRAccuraiser.swift */,
+				2FE81F2A2200572B00933E1B /* NavigationBarSetting.swift */,
+				2F388E432201C258001163AE /* Numberizer.swift */,
+				2F388E452201C492001163AE /* UISetter.swift */,
 				2FE81F1C2200481000933E1B /* Main.storyboard */,
 				2FE81F1F2200481100933E1B /* Assets.xcassets */,
 				2FE81F212200481100933E1B /* LaunchScreen.storyboard */,
 				2FE81F242200481100933E1B /* Info.plist */,
-				2FE81F2A2200572B00933E1B /* NavigationBarSetting.swift */,
-				2F388E432201C258001163AE /* Numberizer.swift */,
-				2F388E452201C492001163AE /* UISetter.swift */,
 			);
 			path = CardNumberScanner;
 			sourceTree = "<group>";

@@ -30,6 +30,7 @@ final class ViewController: UIViewController {
             engine.recognitionIsActive = recognitionIsRunning
         }
     }
+    
     @IBOutlet weak var cameraView:UIView!
     @IBOutlet weak var interestRegion:UIView!
     @IBOutlet weak var interestRegionWidth:NSLayoutConstraint!
@@ -126,7 +127,7 @@ final class ViewController: UIViewController {
         engine.startPreview()
     }
     
-    @objc func handlePan(_ sender: UIPanGestureRecognizer) {
+    @objc private func handlePan(_ sender: UIPanGestureRecognizer) {
         let translate = sender.translation(in: interestRegion)
         
         UIView.animate(withDuration: 0) {
@@ -137,7 +138,7 @@ final class ViewController: UIViewController {
         sender.setTranslation(.zero, in: interestRegion)
         viewDidLayoutSubviews()
     }
-    @objc func recognitionButtonTapped(_ sender: Any) {
+    @objc private func recognitionButtonTapped(_ sender: Any) {
         recognitionIsRunning.toggle()
     }
 }
