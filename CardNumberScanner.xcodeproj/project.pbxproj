@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F388E442201C258001163AE /* Numberizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F388E432201C258001163AE /* Numberizer.swift */; };
+		2F388E462201C492001163AE /* UISetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F388E452201C492001163AE /* UISetter.swift */; };
 		2FE23D5D22008986003C9380 /* OCRAccuraiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE23D5C22008986003C9380 /* OCRAccuraiser.swift */; };
 		2FE81F192200481000933E1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE81F182200481000933E1B /* AppDelegate.swift */; };
 		2FE81F1B2200481000933E1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE81F1A2200481000933E1B /* ViewController.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F388E432201C258001163AE /* Numberizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numberizer.swift; sourceTree = "<group>"; };
+		2F388E452201C492001163AE /* UISetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISetter.swift; sourceTree = "<group>"; };
 		2FE23D5C22008986003C9380 /* OCRAccuraiser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRAccuraiser.swift; sourceTree = "<group>"; };
 		2FE81F152200480F00933E1B /* CardNumberScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardNumberScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FE81F182200481000933E1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +80,8 @@
 				2FE81F212200481100933E1B /* LaunchScreen.storyboard */,
 				2FE81F242200481100933E1B /* Info.plist */,
 				2FE81F2A2200572B00933E1B /* NavigationBarSetting.swift */,
+				2F388E432201C258001163AE /* Numberizer.swift */,
+				2F388E452201C492001163AE /* UISetter.swift */,
 			);
 			path = CardNumberScanner;
 			sourceTree = "<group>";
@@ -225,6 +231,8 @@
 				2FE23D5D22008986003C9380 /* OCRAccuraiser.swift in Sources */,
 				2FE81F2B2200572B00933E1B /* NavigationBarSetting.swift in Sources */,
 				2FE81F1B2200481000933E1B /* ViewController.swift in Sources */,
+				2F388E442201C258001163AE /* Numberizer.swift in Sources */,
+				2F388E462201C492001163AE /* UISetter.swift in Sources */,
 				2FE81F192200481000933E1B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,14 +13,14 @@ import AVFoundation
 import AudioToolbox
 import SHNDStuffs
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     
     private var engine: RealTimeEngine!
-    private var excludeLayer: CAShapeLayer!
+    private var excludeLayer = CAShapeLayer()
     private var flashlightButton: UIButton!
-    private var recognitionButton: UIButton!
-    private var recognitionTitleLabel: UILabel!
-    private var recognitionLabel: UILabel!
+    private var recognitionButton = UIButton()
+    private var recognitionTitleLabel = UILabel()
+    private var recognitionLabel = UILabel()
     private var recognitionIsRunning = false {
         didSet {
             let recognitionButtonText = recognitionIsRunning ? "Stop Running" : "Start Recognition"
@@ -46,7 +46,6 @@ class ViewController: UIViewController {
                                                          titleTextColor: .white,
                                                          descTextColor: .white)
         SHNDNavigationCustomTitleView(builder: navTitleBuilder)
-        
         setUI()
         realTimeEngineSetUp()
     }
@@ -95,85 +94,31 @@ class ViewController: UIViewController {
                 print("Error: \(error.localizedDescription)")
             }
         }
-        let flashlightButtonTitle = device.torchMode == .off ? "Flashlight On" : "Flashlight Off"
-//        flashlightButton.setTitle(flashlightButtonTitle, for: .normal)
-//        flashlightButton.titleLabel?.text = flashlightButtonTitle
-//        flashlightButton.title(for: .normal)
     }
     
     private func setUI() {
-        
-        recognitionButton = UIButton()
-        recognitionButton.setTitleColor(.red, for: .normal)
-        recognitionButton.setTitle("Start", for: .normal)
+        let obj = OCRUISetterSetter { (setter) in
+            setter.parentView = self.view
+            setter.interestRegion = interestRegion
+            setter.excludeLayer = excludeLayer
+            setter.recognitionButton = recognitionButton
+            setter.recognitionTitleLabel = recognitionTitleLabel
+            setter.recognitionLabel = recognitionLabel
+        }
+        OCRUISetter(setter: obj).set()
         recognitionButton.addTarget(self, action: #selector(recognitionButtonTapped(_:)), for: .touchUpInside)
-        
-        recognitionTitleLabel = UILabel()
-        recognitionTitleLabel.text = "Card Number"
-        recognitionTitleLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        recognitionTitleLabel.textColor = .white
-        
-        recognitionLabel = UILabel()
-        recognitionLabel.textAlignment = .center
-        recognitionLabel.numberOfLines = 0
-        recognitionLabel.textColor = .white
-        recognitionLabel.text = "Your card No. will place here"
-        
-        let stackView = UIStackView(arrangedSubviews: [recognitionButton, recognitionTitleLabel, recognitionLabel])
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.spacing = 8.0
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(stackView)
-        
-        stackView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        stackView.topAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor).isActive = true
-        
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        
         interestRegion.addGestureRecognizer(panGesture)
-        interestRegion.layer.borderWidth = 1.0
-        interestRegion.layer.cornerRadius = 4.0
-        interestRegion.layer.borderColor = UIColor.white.cgColor
-        interestRegion.backgroundColor = .clear
-        
-        excludeLayer = CAShapeLayer()
-        excludeLayer.fillRule = .evenOdd
-        excludeLayer.fillColor = UIColor.black.cgColor
-        excludeLayer.opacity = 0.8
     }
-    
-    public func Numberizer( text:inout String) -> String {
-        
-        let stringArray = text.components(separatedBy: CharacterSet.decimalDigits.inverted)
-        
-        text = ""
-        
-        for item in stringArray {
-            if let number = UInt32(item) {
 
-                text = text + String(number)
-            }
-        }
-        
-        if text.count == 16 {
-            return text
-        } else {
-            return "Please Try Again!!"
-        }
-    }
-    
     private func realTimeEngineSetUp() {
         let swiftyTesseract = SwiftyTesseract(language: .english)
         engine = RealTimeEngine(swiftyTesseract: swiftyTesseract, desiredReliability: .verifiable) { [weak self] recognizedString in
             AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+            
             DispatchQueue.main.async {
                 var text = recognizedString.trimmingCharacters(in: .whitespacesAndNewlines)
-                self?.recognitionLabel.text = self?.Numberizer(text: &text)
+                self?.recognitionLabel.text = Numberizer.shared.Numberize(text: &text)
             }
             self?.recognitionIsRunning = false
         }
@@ -192,10 +137,7 @@ class ViewController: UIViewController {
         sender.setTranslation(.zero, in: interestRegion)
         viewDidLayoutSubviews()
     }
-    
     @objc func recognitionButtonTapped(_ sender: Any) {
         recognitionIsRunning.toggle()
     }
-    
 }
-
