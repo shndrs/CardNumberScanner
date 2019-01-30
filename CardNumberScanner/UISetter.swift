@@ -9,8 +9,8 @@
 import UIKit
 
 fileprivate protocol OCRUISetterProtocol {
-    var parentView:UIView! { get }
-    var interestRegion:UIView! { get }
+    var parentView: UIView! { get }
+    var interestRegion: UIView! { get }
     var excludeLayer: CAShapeLayer! { get }
     var recognitionButton: UIButton! { get }
     var recognitionTitleLabel: UILabel! { get }
@@ -43,7 +43,6 @@ public final class OCRUISetter {
     private var recognitionLabel: UILabel!
     
     public init(setter: OCRUISetterSetter) {
-        
         self.parentView = setter.parentView
         self.interestRegion = setter.interestRegion
         self.excludeLayer = setter.excludeLayer

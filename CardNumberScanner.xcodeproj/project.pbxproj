@@ -15,7 +15,6 @@
 		2FE81F1E2200481000933E1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FE81F1C2200481000933E1B /* Main.storyboard */; };
 		2FE81F202200481100933E1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FE81F1F2200481100933E1B /* Assets.xcassets */; };
 		2FE81F232200481100933E1B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FE81F212200481100933E1B /* LaunchScreen.storyboard */; };
-		2FE81F2B2200572B00933E1B /* NavigationBarSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE81F2A2200572B00933E1B /* NavigationBarSetting.swift */; };
 		2FE81F2D2200619200933E1B /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 2FE81F2C2200619200933E1B /* tessdata */; };
 		5AE3F3169DEDB4D49557FCC4 /* Pods_CardNumberScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C290265D39A773129791CA /* Pods_CardNumberScanner.framework */; };
 /* End PBXBuildFile section */
@@ -31,7 +30,6 @@
 		2FE81F1F2200481100933E1B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2FE81F222200481100933E1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2FE81F242200481100933E1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2FE81F2A2200572B00933E1B /* NavigationBarSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarSetting.swift; sourceTree = "<group>"; };
 		2FE81F2C2200619200933E1B /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 		5BA57F4E105B373E906A3821 /* Pods-CardNumberScanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CardNumberScanner.release.xcconfig"; path = "Pods/Target Support Files/Pods-CardNumberScanner/Pods-CardNumberScanner.release.xcconfig"; sourceTree = "<group>"; };
 		D8C290265D39A773129791CA /* Pods_CardNumberScanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CardNumberScanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,7 +73,6 @@
 				2FE81F182200481000933E1B /* AppDelegate.swift */,
 				2FE81F1A2200481000933E1B /* ViewController.swift */,
 				2FE23D5C22008986003C9380 /* OCRAccuraiser.swift */,
-				2FE81F2A2200572B00933E1B /* NavigationBarSetting.swift */,
 				2F388E432201C258001163AE /* Numberizer.swift */,
 				2F388E452201C492001163AE /* UISetter.swift */,
 				2FE81F1C2200481000933E1B /* Main.storyboard */,
@@ -229,7 +226,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FE23D5D22008986003C9380 /* OCRAccuraiser.swift in Sources */,
-				2FE81F2B2200572B00933E1B /* NavigationBarSetting.swift in Sources */,
 				2FE81F1B2200481000933E1B /* ViewController.swift in Sources */,
 				2F388E442201C258001163AE /* Numberizer.swift in Sources */,
 				2F388E462201C492001163AE /* UISetter.swift in Sources */,

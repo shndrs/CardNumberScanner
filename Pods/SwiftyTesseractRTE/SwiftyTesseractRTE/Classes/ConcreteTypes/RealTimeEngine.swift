@@ -290,8 +290,6 @@ extension UIImage {
         return greyImage.image!
     }
     
-    
-    
     func scaleImage() -> UIImage {
         
         let maxDimension: CGFloat = 640
@@ -332,5 +330,4 @@ extension UIImage {
         return normalizedImage
         
     }
-    
 }

@@ -43,7 +43,7 @@ final class ViewController: UIViewController {
         let navTitleBuilder = NavigationTitleViewBuilder(title: "Ansar OCR",
                                                          desc: "Ansar Bank",
                                                          titleFont: UIFont(name: "Papyrus", size: 18)!,
-                                                         descFont: UIFont(name: "Kailasa", size: 10)!,
+                                                         descFont: UIFont(name: "Papyrus", size: 10)!,
                                                          titleTextColor: .white,
                                                          descTextColor: .white)
         SHNDNavigationCustomTitleView(builder: navTitleBuilder)
