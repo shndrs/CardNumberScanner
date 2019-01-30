@@ -185,7 +185,7 @@ extension RealTimeEngine {
   
   private func convertAndCrop(_ sampleBuffer: CMSampleBuffer) -> UIImage? {
     guard
-      let processedImage = imageProcessor.convertToGrayscaleUiImage(from: sampleBuffer),
+        let processedImage = imageProcessor.convertToGrayscaleUiImage(from: sampleBuffer)?.binarise.increaseContrast.noiseReducted,
       let regionOfInterest = regionOfInterest
     else { return nil }
     
@@ -225,4 +225,112 @@ extension RealTimeEngine: AVCaptureVideoDataOutputSampleBufferDelegate {
     performOCR <=< sampleBuffer
   }
   
+}
+
+extension UIImage {
+    
+    var increaseContrast: UIImage {
+        let inputImage = CIImage(image: self)!
+        let parameters = [ "inputContrast": NSNumber(value: 2)]
+        let outputImage = inputImage.applyingFilter("CIColorControls", parameters: parameters)
+        
+        let context = CIContext(options: nil)
+        let img = context.createCGImage(outputImage, from: outputImage.extent)!
+        return UIImage(cgImage: img)
+    }
+    
+    var binarise: UIImage {
+        let glContext = EAGLContext(api: .openGLES2)!
+        let ciContext = CIContext(eaglContext: glContext, options: [CIContextOption.outputColorSpace : NSNull()])
+        let filter = CIFilter(name: "CIPhotoEffectMono")
+        filter!.setValue(CIImage(image: self), forKey: "inputImage")
+        let outputImage = filter!.outputImage
+        let cgimg = ciContext.createCGImage(outputImage!, from: (outputImage?.extent)!)
+        
+        return UIImage(cgImage: cgimg!)
+    }
+//
+//    func binarise() -> UIImage {
+//
+//
+//    }
+    
+    var noiseReducted: UIImage? {
+        guard let openGLContext = EAGLContext(api: .openGLES2) else { return self }
+        let ciContext = CIContext(eaglContext: openGLContext)
+        
+        guard let noiseReduction = CIFilter(name: "CINoiseReduction") else { return self }
+        noiseReduction.setValue(CIImage(image: self), forKey: kCIInputImageKey)
+        noiseReduction.setValue(0.02, forKey: "inputNoiseLevel")
+        noiseReduction.setValue(0.40, forKey: "inputSharpness")
+        
+        if let output = noiseReduction.outputImage,
+            let cgImage = ciContext.createCGImage(output, from: output.extent) {
+            return UIImage(cgImage: cgImage, scale: scale, orientation: imageOrientation)
+        }
+        return nil
+    }
+}
+
+
+extension UIImage {
+    
+    func toGrayScale() -> UIImage {
+        
+        let greyImage = UIImageView()
+        greyImage.image = self
+        let context = CIContext(options: nil)
+        let currentFilter = CIFilter(name: "CIPhotoEffectNoir")
+        currentFilter!.setValue(CIImage(image: greyImage.image!), forKey: kCIInputImageKey)
+        let output = currentFilter!.outputImage
+        let cgimg = context.createCGImage(output!,from: output!.extent)
+        let processedImage = UIImage(cgImage: cgimg!)
+        greyImage.image = processedImage
+        
+        return greyImage.image!
+    }
+    
+    
+    
+    func scaleImage() -> UIImage {
+        
+        let maxDimension: CGFloat = 640
+        var scaledSize = CGSize(width: maxDimension, height: maxDimension)
+        var scaleFactor: CGFloat
+        
+        if self.size.width > self.size.height {
+            scaleFactor = self.size.height / self.size.width
+            scaledSize.width = maxDimension
+            scaledSize.height = scaledSize.width * scaleFactor
+        } else {
+            scaleFactor = self.size.width / self.size.height
+            scaledSize.height = maxDimension
+            scaledSize.width = scaledSize.height * scaleFactor
+        }
+        
+        UIGraphicsBeginImageContext(scaledSize)
+        self.draw(in: CGRect(x: 0, y: 0, width: scaledSize.width, height: scaledSize.height))
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return scaledImage!
+    }
+    
+    func orientate(img: UIImage) -> UIImage {
+        
+        if (img.imageOrientation == UIImage.Orientation.up) {
+            return img;
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(img.size, false, img.scale)
+        let rect = CGRect(x: 0, y: 0, width: img.size.width, height: img.size.height)
+        img.draw(in: rect)
+        
+        let normalizedImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return normalizedImage
+        
+    }
+    
 }
