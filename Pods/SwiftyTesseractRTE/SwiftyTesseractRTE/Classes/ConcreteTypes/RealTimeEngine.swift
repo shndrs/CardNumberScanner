@@ -60,7 +60,7 @@ public class RealTimeEngine: NSObject {
   ///   - onRecognitionComplete: Action to be performed after successful recognition
   public convenience init(swiftyTesseract: SwiftyTesseract,
                           desiredReliability: RecognitionReliability,
-                          cameraQuality: AVCaptureSession.Preset = .medium,
+                          cameraQuality: AVCaptureSession.Preset,
                           onRecognitionComplete: ((String) -> ())? = nil) {
     
     let recognitionQueue = RecognitionQueue<String>(desiredReliability: desiredReliability)

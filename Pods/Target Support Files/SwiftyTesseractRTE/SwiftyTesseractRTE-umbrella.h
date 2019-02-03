@@ -13,4 +13,3 @@
 
 FOUNDATION_EXPORT double SwiftyTesseractRTEVersionNumber;
 FOUNDATION_EXPORT const unsigned char SwiftyTesseractRTEVersionString[];
-

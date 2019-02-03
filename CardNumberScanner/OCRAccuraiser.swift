@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreML
 
 extension UIImage {
     

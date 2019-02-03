@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SwiftOnoneSupport
+import libleptonica
 
 fileprivate protocol OCRUISetterProtocol {
     var parentView: UIView! { get }

@@ -113,8 +113,14 @@ final class ViewController: UIViewController {
     }
 
     private func realTimeEngineSetUp() {
-        let swiftyTesseract = SwiftyTesseract(language: .english)
-        engine = RealTimeEngine(swiftyTesseract: swiftyTesseract, desiredReliability: .verifiable) { [weak self] recognizedString in
+//        let swiftyTesseract = SwiftyTesseract(language: .english)
+        let st = SwiftyTesseract(language: .english, bundle: .main, engineMode: EngineMode.tesseractLstmCombined)
+        
+        engine = RealTimeEngine(swiftyTesseract: st,
+                                desiredReliability: .solid,
+                                cameraQuality: .medium,
+                                onRecognitionComplete: { [weak self] (recognizedString) in
+                                    
             AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
             
             DispatchQueue.main.async {
@@ -122,7 +128,18 @@ final class ViewController: UIViewController {
                 self?.recognitionLabel.text = Numberizer.shared.Numberize(text: &text)
             }
             self?.recognitionIsRunning = false
-        }
+        })
+//
+//        engine = RealTimeEngine(swiftyTesseract: swiftyTesseract,
+//                                desiredReliability: .solid) { [weak self] recognizedString in
+//            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+//
+//            DispatchQueue.main.async {
+//                var text = recognizedString.trimmingCharacters(in: .whitespacesAndNewlines)
+//                self?.recognitionLabel.text = Numberizer.shared.Numberize(text: &text)
+//            }
+//            self?.recognitionIsRunning = false
+//        }
         engine.recognitionIsActive = false
         engine.startPreview()
     }
