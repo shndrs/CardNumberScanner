@@ -23,13 +23,15 @@ final class ViewController: UIViewController {
     private var recognitionLabel = UILabel()
     private var recognitionIsRunning = false {
         didSet {
-            let recognitionButtonText = recognitionIsRunning ? "Stop Running" : "Start Recognition"
+            let recognitionButtonText = recognitionIsRunning ? "Stop" : "Try Agian"
             DispatchQueue.main.async { [weak self] in
                 self?.recognitionButton.setTitle(recognitionButtonText, for: .normal)
             }
             engine.recognitionIsActive = recognitionIsRunning
         }
     }
+    private var repeatCount:UInt8 = 0
+    private var repeatable:Bool = true
     
     @IBOutlet weak var cameraView:UIView!
     @IBOutlet weak var interestRegion:UIView!
@@ -38,7 +40,7 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         SHNDNavigationBarGradient(firstColor: .purple, secondColor: .blue, tintColor: .white, isHorizontal: true)
         let navTitleBuilder = NavigationTitleViewBuilder(title: "Ansar OCR",
                                                          desc: "Ansar Bank",
@@ -49,6 +51,13 @@ final class ViewController: UIViewController {
         SHNDNavigationCustomTitleView(builder: navTitleBuilder)
         setUI()
         realTimeEngineSetUp()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4)
+        { [weak self] in
+            self?.recognitionIsRunning.toggle()
+            self?.engine.recognitionIsActive = true
+        }
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -108,53 +117,41 @@ final class ViewController: UIViewController {
         }
         OCRUISetter(setter: obj).set()
         recognitionButton.addTarget(self, action: #selector(recognitionButtonTapped(_:)), for: .touchUpInside)
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        interestRegion.addGestureRecognizer(panGesture)
     }
 
     private func realTimeEngineSetUp() {
-//        let swiftyTesseract = SwiftyTesseract(language: .english)
-        let st = SwiftyTesseract(language: .english, bundle: .main, engineMode: EngineMode.tesseractLstmCombined)
+
+        let st = SwiftyTesseract(language: .english,
+                                 bundle: .main,
+                                 engineMode: EngineMode.tesseractLstmCombined)
         
         engine = RealTimeEngine(swiftyTesseract: st,
-                                desiredReliability: .solid,
+                                desiredReliability: .stable,
                                 cameraQuality: .medium,
                                 onRecognitionComplete: { [weak self] (recognizedString) in
                                     
             AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
             
-            DispatchQueue.main.async {
+            DispatchQueue.global(qos: .background).async {
                 var text = recognizedString.trimmingCharacters(in: .whitespacesAndNewlines)
-                self?.recognitionLabel.text = Numberizer.shared.Numberize(text: &text)
+                if Numberizer.shared.Numberize(text: &text).count != 16 && self?.repeatCount ?? 0 < UInt8(3) {
+                    self?.repeatCount += 1
+                    self?.recognitionIsRunning = true
+                    self?.recognitionIsRunning.toggle()
+                } else {
+                    self?.repeatCount = UInt8(0)
+                    self?.recognitionIsRunning = false
+//                    self?.engine.recognitionIsActive = false
+                    
+                    DispatchQueue.main.async {
+                        self?.recognitionLabel.text = text
+                    }
+                }
             }
-            self?.recognitionIsRunning = false
         })
-//
-//        engine = RealTimeEngine(swiftyTesseract: swiftyTesseract,
-//                                desiredReliability: .solid) { [weak self] recognizedString in
-//            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-//
-//            DispatchQueue.main.async {
-//                var text = recognizedString.trimmingCharacters(in: .whitespacesAndNewlines)
-//                self?.recognitionLabel.text = Numberizer.shared.Numberize(text: &text)
-//            }
-//            self?.recognitionIsRunning = false
-//        }
-        engine.recognitionIsActive = false
         engine.startPreview()
     }
     
-    @objc private func handlePan(_ sender: UIPanGestureRecognizer) {
-        let translate = sender.translation(in: interestRegion)
-        
-        UIView.animate(withDuration: 0) {
-            self.interestRegionWidth.constant += translate.x
-            self.interestRegionHeight.constant += translate.y
-        }
-        
-        sender.setTranslation(.zero, in: interestRegion)
-        viewDidLayoutSubviews()
-    }
     @objc private func recognitionButtonTapped(_ sender: Any) {
         recognitionIsRunning.toggle()
     }
